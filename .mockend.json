@@ -1,0 +1,14 @@
+{
+  "Product": {
+    "title": "string",
+    "description": "string",
+    "createdAt": "date",
+    "author": "Author"
+  },
+  "Author": {
+    "firstName": "string",
+    "lastName": "string",
+    "dateOfBirth": "date",
+    "products": "Product[]"
+  }
+}

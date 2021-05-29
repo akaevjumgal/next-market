@@ -3,8 +3,10 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import { http } from '../../utils/fetcher'
 import { User } from '../../models/User.model'
 import { joinAddress } from '../../utils/address.utils'
+import { Post } from '../../models/Post.model'
+import { Card } from '@/components/Card'
 
-export default function UserPage({ user }: InferGetStaticPropsType<typeof getStaticProps>) {
+export default function UserPage({ user, posts = [] }: InferGetStaticPropsType<typeof getStaticProps>) {
 	const address = joinAddress(user.address)
 	return (
 		<div className='p-4'>
@@ -17,7 +19,17 @@ export default function UserPage({ user }: InferGetStaticPropsType<typeof getSta
 				<a href={`tel:${user.phone}`} className='block'>{user.phone}</a>
 				<a href={user.website}>{user.website}</a>
 			</div>
-			<p>Company: {user.company.bs}</p>
+			<p className='pb-3'>Company: {user.company.bs}</p>
+			<hr/>
+			<h1>Posts:</h1>
+			<div className='grid grid-cols-auto-fill gap-4'>
+				{posts.map(post => (
+					<Card key={post.id}>
+						<h1>{post.title}</h1>
+						<p>{post.body}</p>
+					</Card>
+				))}
+			</div>
 		</div>
 	)
 }
@@ -29,13 +41,20 @@ export const getStaticPaths: GetStaticPaths = async () => {
 	}
 }
 
-export const getStaticProps: GetStaticProps<{ user: User }> = async ({ params }) => {
+interface UserDetailsStaticProps {
+	user: User
+	posts: Post[]
+}
+
+export const getStaticProps: GetStaticProps<UserDetailsStaticProps> = async ({ params }) => {
 	try {
 		const { data: user } = await http.get<User>(`/users/${params.userId}`)
+		const { data: posts } = await http.get<Post[]>(`/users/${params.userId}/posts`)
 		
 		return {
 			props: {
-				user
+				user,
+				posts
 			}
 		}
 	} catch {

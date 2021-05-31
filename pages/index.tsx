@@ -4,7 +4,7 @@ import type { GetStaticProps, InferGetStaticPropsType } from 'next'
 import Head from 'next/head'
 import styles from 'styles/Home.module.css'
 import { useRouter } from 'next/router'
-import { http } from '../utils/fetcher'
+import { http } from '@/utils/fetcher'
 
 const Home = ({ users = [] }: InferGetStaticPropsType<typeof getStaticProps>) => {
 	const router = useRouter()

@@ -3,8 +3,9 @@ import {AppProps} from 'next/app'
 import { useState, Fragment } from 'react'
 import { Router } from 'next/router'
 import { PageLoader } from '@/components/page-loader/PageLoader'
+import { NextLayout } from '@/components/next-layout/NextLayout'
 
-function MyApp({Component, pageProps}: AppProps) {
+export default function App({Component, pageProps}: AppProps) {
 	const [loading, setLoading] = useState(false)
 	
 	Router.events.on('routeChangeStart', (url) => {
@@ -15,11 +16,9 @@ function MyApp({Component, pageProps}: AppProps) {
 	})
 	
 	return (
-		<Fragment>
+		<NextLayout>
 			{ loading && <PageLoader/> }
 			<Component {...pageProps} />
-		</Fragment>
+		</NextLayout>
 	)
 }
-
-export default MyApp

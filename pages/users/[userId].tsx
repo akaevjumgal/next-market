@@ -34,15 +34,6 @@ export default function UserPage({ user, posts = [], albums = [] }: InferGetStat
 					</Card>
 				))}
 			</div>
-			<hr/>
-			<h1>Albums:</h1>
-			<div className='grid grid-cols-auto-fill gap-4'>
-				{albums.map(album => (
-					<Card key={album.id}>
-						<h1>{album.title}</h1>
-					</Card>
-				))}
-			</div>
 		</div>
 	)
 }
